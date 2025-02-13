@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EleCho.WpfSuite.Helpers;
+using LightDarkModeSwitchAnimation.Utilities;
 
 namespace LightDarkModeSwitchAnimation
 {
@@ -21,8 +22,6 @@ namespace LightDarkModeSwitchAnimation
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _isDark;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -65,16 +64,10 @@ namespace LightDarkModeSwitchAnimation
             adornerLayer.Add(ripple);
             ripple.Play();
 
-            if (!_isDark)
+            if (ResourceDictionaryUtils.FindResourceDictionary<ThemeResources>(Application.Current.Resources) is { } themeResources)
             {
-                Background = Brushes.Black;
+                themeResources.IsDark ^= true;
             }
-            else
-            {
-                Background = Brushes.White;
-            }
-
-            _isDark ^= true;
         }
     }
 }

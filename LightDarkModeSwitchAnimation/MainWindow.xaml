@@ -5,19 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LightDarkModeSwitchAnimation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Background="{DynamicResource Background}"
+        Foreground="{DynamicResource Foreground}">
     <Grid Name="rootGrid">
+        <TextBlock VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Width="300"
+                   TextWrapping="Wrap">
+            Viroj mauxroj kaj viro plencxase la baldaux kiu mi sed ni ili la ne tra mi tiatempe knabo mi estas li por eltiris por deflanku de ajn du estus kaj la tiom ia cxar kapti sorto faris rigardas en ektremis tial franca nun bestoj zorgis gxis estis al mi mi por knabo travivis kiel ne ion al si kiu cxion havis rumo direktilon vespermangxontaj tie lin lauxlongirante gajeco la devis unuvorte de vivkuron alsendis ni vi kaj siaj boaton oron malproksime li subteni viro alsendis tiuj pli plimulto mi tiuj eltrovis atingos ajn surteron miaj ni malproksime estas homojn ne
+        </TextBlock>
         <Canvas>
             <Button Content="Ripple!"
+                    Background="{DynamicResource Button.Background}"
+                    Foreground="{DynamicResource Foreground}"
                     Click="Button_Click" Canvas.Left="425" Canvas.Top="60"/>
 
             <Button Content="Ripple!"
+                    Background="{DynamicResource Button.Background}"
+                    Foreground="{DynamicResource Foreground}"
                     Click="Button_Click" Canvas.Left="221" Canvas.Top="361"/>
 
             <Button Content="Ripple!"
+                    Background="{DynamicResource Button.Background}"
+                    Foreground="{DynamicResource Foreground}"
                     Click="Button_Click" Canvas.Left="88" Canvas.Top="155"/>
 
             <Button Content="Ripple!"
+                    Background="{DynamicResource Button.Background}"
+                    Foreground="{DynamicResource Foreground}"
                     Click="Button_Click" Canvas.Left="627" Canvas.Top="309"/>
         </Canvas>
     </Grid>
