@@ -23,18 +23,6 @@ namespace LightDarkModeSwitchAnimation
             set { SetValue(CenterProperty, value); }
         }
 
-        public double Speed
-        {
-            get { return (double)GetValue(SpeedProperty); }
-            set { SetValue(SpeedProperty, value); }
-        }
-
-        public IEasingFunction EasingFunction
-        {
-            get { return (IEasingFunction)GetValue(EasingFunctionProperty); }
-            set { SetValue(EasingFunctionProperty, value); }
-        }
-
         public Brush InnerBrush
         {
             get { return (Brush)GetValue(InnerBrushProperty); }
@@ -47,10 +35,10 @@ namespace LightDarkModeSwitchAnimation
             set { SetValue(OuterBrushProperty, value); }
         }
 
-        public double CurrentDiameter
+        public double Diameter
         {
-            get { return (double)GetValue(CurrentDiameterProperty); }
-            set { SetValue(CurrentDiameterProperty, value); }
+            get { return (double)GetValue(DiameterProperty); }
+            set { SetValue(DiameterProperty, value); }
         }
 
         public RippleEffect(UIElement adornedElement) : base(adornedElement)
@@ -58,14 +46,8 @@ namespace LightDarkModeSwitchAnimation
             this._adornedElement = adornedElement;
         }
 
-        private static double GetDistance(Point point1, Point point2)
+        public void Play(double speed, IEasingFunction? easingFunction)
         {
-            return new Vector(point2.X - point1.X, point2.Y - point1.Y).Length;
-        }
-
-        public void Play()
-        {
-            var speed = Speed;
             var center = Center;
             var renderSize = _adornedElement.RenderSize;
 
@@ -79,7 +61,7 @@ namespace LightDarkModeSwitchAnimation
 
             double maxDiameter = Math.Sqrt(maxRadiusSquared) * 2;
 
-            double fromDiameter = CurrentDiameter;
+            double fromDiameter = Diameter;
             if (fromDiameter > maxDiameter)
             {
                 fromDiameter = 0;
@@ -92,17 +74,18 @@ namespace LightDarkModeSwitchAnimation
                 From = fromDiameter,
                 To = maxDiameter,
                 Duration = new Duration(TimeSpan.FromSeconds(timeSeconds)),
+                EasingFunction = easingFunction,
             };
 
             doubleAnimation.Completed += (s, e) =>
             {
-                BeginAnimation(CurrentDiameterProperty, null);
-                CurrentDiameter = maxDiameter;
+                BeginAnimation(DiameterProperty, null);
+                Diameter = maxDiameter;
 
                 Completed?.Invoke(this, EventArgs.Empty);
             };
 
-            BeginAnimation(CurrentDiameterProperty, doubleAnimation);
+            BeginAnimation(DiameterProperty, doubleAnimation);
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -113,7 +96,7 @@ namespace LightDarkModeSwitchAnimation
             var actualHeight = ActualHeight;
 
             var center = Center;
-            var radius = CurrentDiameter / 2;
+            var radius = Diameter / 2;
 
             var innerBrush = InnerBrush;
             var outerBrush = OuterBrush;
@@ -148,22 +131,16 @@ namespace LightDarkModeSwitchAnimation
         }
 
         public static readonly DependencyProperty CenterProperty =
-            DependencyProperty.Register("Center", typeof(Point), typeof(RippleEffect), new FrameworkPropertyMetadata(default(Point), FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.Register(nameof(Center), typeof(Point), typeof(RippleEffect), new FrameworkPropertyMetadata(default(Point), FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public static readonly DependencyProperty SpeedProperty =
-            DependencyProperty.Register("Speed", typeof(double), typeof(RippleEffect), new FrameworkPropertyMetadata(300.0));
-
-        public static readonly DependencyProperty EasingFunctionProperty =
-            DependencyProperty.Register("EasingFunction", typeof(IEasingFunction), typeof(RippleEffect), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty OuterBrushProperty =
-            DependencyProperty.Register("OuterBrush", typeof(Brush), typeof(RippleEffect), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty DiameterProperty =
+            DependencyProperty.Register(nameof(Diameter), typeof(double), typeof(RippleEffect), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty InnerBrushProperty =
-            DependencyProperty.Register("InnerBrush", typeof(Brush), typeof(RippleEffect), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.Register(nameof(InnerBrush), typeof(Brush), typeof(RippleEffect), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public static readonly DependencyProperty CurrentDiameterProperty =
-            DependencyProperty.Register("CurrentDiameter", typeof(double), typeof(RippleEffect), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty OuterBrushProperty =
+            DependencyProperty.Register(nameof(OuterBrush), typeof(Brush), typeof(RippleEffect), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public event EventHandler? Completed;
     }

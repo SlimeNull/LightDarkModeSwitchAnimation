@@ -51,8 +51,6 @@ namespace LightDarkModeSwitchAnimation
             var ripple = new RippleEffect(rootGrid)
             {
                 Center = center,
-                Speed = 3000,
-                EasingFunction = new SineEase() { EasingMode = EasingMode.EaseOut },
                 OuterBrush = new ImageBrush(renderTargetBitmap),
             };
 
@@ -62,7 +60,7 @@ namespace LightDarkModeSwitchAnimation
             };
 
             adornerLayer.Add(ripple);
-            ripple.Play();
+            ripple.Play(3500, new SineEase() { EasingMode = EasingMode.EaseOut });
 
             if (ResourceDictionaryUtils.FindResourceDictionary<ThemeResources>(Application.Current.Resources) is { } themeResources)
             {
